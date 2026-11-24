@@ -126,7 +126,9 @@ function Entity:ellipsis(max)
 	for _, child in ipairs(self._children) do
 		adv = adv + child.width
 		if adv >= max then
-			return not f.stat.is_dir and f.url.ext and "…." .. f.url.ext or nil
+			local name = ui.printable(f.name)
+			local tail = math.min(math.floor((max - adv + child.width) / 2), ui.width(name) - 1)
+			return ui.truncate(name, { max = math.max(1, tail), rtl = true })
 		elseif child.id == 4 then
 			break
 		end
